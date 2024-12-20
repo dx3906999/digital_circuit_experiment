@@ -1,4 +1,4 @@
-module binary_to_decimal_tb;
+wiremodule binary_to_decimal_tb;
     reg [19:0] binary;
     wire [23:0] decimal;
 
