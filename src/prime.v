@@ -36,7 +36,7 @@ module eshelby_screen (
     localparam READ_TO_CHECK_STATE = 3'b010;
     localparam INITIAL_STATE = 3'b011;
     localparam DONE_STATE = 3'b100;
-    localparam WAITING_FOR_TWO_T_STATE = 3'b101;// 所有这些都要减少一个周期
+    localparam WAITING_FOR_RT_STATE = 3'b101;// 所有这些都要减少一个周期
 
     reg [2:0] output_state;
     localparam SEARCHING_NEXT_STATE=3'b000;
@@ -111,7 +111,7 @@ module eshelby_screen (
                     if (ack[0]&&~ack[1]) begin
                         // r_addr<=index_prime;
                         req[0]<=1'b0;
-                        state<=WAITING_FOR_TWO_T_STATE;
+                        state<=WAITING_FOR_RT_STATE;
                     end else begin
                         req[0]<=1'b1;
                         state<=READ_TO_CHECK_STATE;
@@ -132,7 +132,7 @@ module eshelby_screen (
                         state<=DONE_STATE;
                     end
                 end
-                WAITING_FOR_TWO_T_STATE: begin
+                WAITING_FOR_RT_STATE: begin
                     state<=CHECK_PRIME_STATE;
                 end
                 DONE_STATE: begin
@@ -153,7 +153,7 @@ module eshelby_screen (
                     if (ack[1]&&~ack[0]) begin
                         // r_addr<=index_output;
                         req[1]<=1'b0;
-                        output_state<=WAITING_FOR_TWO_T_STATE;
+                        output_state<=WAITING_FOR_RT_STATE;
                     end else begin
                         req[1]<=1'b1;
                         output_state<=READ_TO_SEARCH_STATE;
@@ -186,7 +186,7 @@ module eshelby_screen (
                         output_state<=WAITING_FOR_PRIME_STATE;
                     end
                 end
-                WAITING_FOR_TWO_T_STATE: begin
+                WAITING_FOR_RT_STATE: begin
                     output_state<=SEARCHING_NEXT_STATE;
                 end
             
