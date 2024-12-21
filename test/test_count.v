@@ -1,4 +1,4 @@
-'timescale 1ns/1ps
+`timescale 1ns/1ps
 
 module count_to_one_tb;
     reg clk;
@@ -18,7 +18,7 @@ module count_to_one_tb;
     end
 
     initial begin
-        $dumpfile("test.vcd);
+        $dumpfile("test.vcd");
         $dumpvars(0);
         #500_000_000 $finish;
     end
