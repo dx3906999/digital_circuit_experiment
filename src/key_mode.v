@@ -5,6 +5,8 @@ module key_mode #(parameter N = 1_000_000)(
     output mode//模式切换信号
 );
     reg mode_reg;//位宽取决于N的值
+    reg key_flag_sync1, key_flag_sync2;
+    reg state;
     reg [20:0] cnt;
     always @(posedge clk or negedge rstn) begin
         if (~rstn) cnt <= 24'd0; 
@@ -13,7 +15,23 @@ module key_mode #(parameter N = 1_000_000)(
         end
     always@(posedge clk or negedge rstn) begin
         if (~rstn) mode_reg <=1'b0;
-        else if (cnt == N-1) mode_reg <= ~mode_reg;
+        else if (cnt == N-1) mode_reg <= 1'b1;//且cnt在999_999时拉高,维持一个时钟的高电平
+        else mode_reg <= 1'b0;
     end
-    assign mode = mode_reg;
+        
+    always @(posedge clk or negedge rstn) begin
+        if (~rstn) begin
+            key_flag_sync1 <= 0;
+            key_flag_sync2 <= 0;
+            state <= 0;
+        end else begin
+            key_flag_sync1 <= mode_reg;  // 第一级同步
+            key_flag_sync2 <= key_flag_sync1;  // 第二级同步
+
+            if (key_flag_sync2 == 1 && key_flag_sync1 == 0) begin
+                state <= ~state;  // 在上升沿时翻转state
+            end
+        end
+    end
+    assign mode = state;
 endmodule
