@@ -1,33 +1,19 @@
-module key_mode #(parameter N = 5_000_000)(
-    input clk,
-    input rstn,
-    input key_in,
-    output mode
+module key_mode #(parameter N = 1_000_000)(
+    input clk,//系统时钟50MHz
+    input rstn,//复位信号
+    input key_in,//按键输入信号
+    output mode//模式切换信号
 );
-    reg state;
-    reg mode_reg;
-    reg [23:0] cnt;
+    reg mode_reg;//位宽取决于N的值
+    reg [20:0] cnt;
     always @(posedge clk or negedge rstn) begin
-        if (~rstn) begin
-            mode_reg <=1'b1;
-            cnt <= 24'd0;
-            state <= 0;
-        end else begin
-            if (key_in==0) begin
-                cnt<=(cnt+1<=N)?cnt+1:N;
-            end else begin
-                cnt<=(cnt==0)?0:cnt-1;
-            end
-
-            if (cnt == N) begin
-                state <= 1;
-            end else if (cnt <= N*9/10) begin
-                    state <= 0;
-            end
+        if (~rstn) cnt <= 24'd0; 
+        else if (key_in == 1) cnt <= 0;
+        else if (key_in==0) cnt<=(cnt<N)?cnt+1:cnt;
         end
-    end
-    always@(posedge state) begin
-        mode_reg <= ~mode_reg;
+    always@(posedge clk or negedge rstn) begin
+        if (~rstn) mode_reg <=1'b0;
+        else if (cnt == N-1) mode_reg <= ~mode_reg;
     end
     assign mode = mode_reg;
 endmodule
