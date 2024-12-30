@@ -1,0 +1,50 @@
+\documentclass[a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[dvipsnames, svgnames, x11names]{xcolor}
+\usepackage{ctex, cite, amsfonts, amsmath, graphicx, lipsum, amssymb, url, listings, bm, float, siunitx, framed, color, tikz, booktabs, fontspec, unicode-math, mdframed, tcolorbox, fancyhdr, titling}
+% \usepackage{minted}
+% \tcbuselibrary{minted}
+\tcbuselibrary{skins, listingsutf8, breakable}
+\usepackage[sort&compress]{gbt7714}
+\usepackage[colorlinks=true, citecolor=black]{hyperref}
+\usepackage{cleveref}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{SpaceMono Nerd Font}
+\setCJKmainfont[AutoFakeBold=true]{SimSun}
+\setCJKsansfont[AutoFakeBold=3]{楷体}
+\setCJKmonofont[AutoFakeBold=3]{SimHei}
+\DeclareFontFamily{U}{bbold}{\skewchar\font127 }
+\DeclareFontShape{U}{bbold}{m}{n}{
+   <-6> bbold5
+   <6-8> bbold7
+   <8-> bbold10
+}{}
+\hypersetup{pdftitle={}, pdfauthor={Crazy\_13754}}
+% \begin{tcblisting}{listing engine=minted,boxrule=0.1mm,colback=blue!5!white,breakable,colframe=blue!75!black,listing only,left=5mm,minted options={fontsize=\small,breaklines, autogobble,linenos,numbersep=3mm,escapeinside=||},minted language=text}
+% \end{tcblisting}
+\definecolor{LightGray}{gray}{0.9}
+\definecolor{darkgray}{gray}{0.3}
+
+\newmdenv[leftline=true, linecolor=gray, linewidth=2pt, topline=false, bottomline=false, rightline=false, leftmargin=10pt,  font=\sffamily\color{darkgray}]{quoted}
+
+\newtcolorbox{citebox}{boxrule=0pt, left=10mm, right=10mm, top=5mm, bottom=5mm, fonttitle=\bfseries, sharp corners, before skip=10pt, after skip=10pt}
+\newcommand{\upcite}[1]{	extsuperscript{\cite{#1}}}
+\citestyle{numbers}
+
+\begin{document}
+
+\title{数字电路实验报告——说明文档}
+\author{张荣宸、罗浙元、毕冠华}
+\date{}
+
+\maketitle
+\tableofcontents
+
+不会。没啥感想和体会。
+
+% \bibliographystyle{unsrt}
+\bibliographystyle{gbt7714-numerical}
+% \bibliographystyle{plain}
+% \bibliography{.bib}
+\end{document}
