@@ -47,8 +47,8 @@
 \date{}
 
 \maketitle
-\tableofcontents
-\newpage
+% \tableofcontents
+% \newpage
 
 % \section{总述}
 % 主要代码由以下部分组成：
@@ -59,29 +59,32 @@
 % \paragraph{eshelby\_screen} 素数筛模块，用于筛选素数。
 % \paragraph{key\_mode} 按键模式切换模块，用于按键模式切换。
 
-\section{代码}
-\subsection{ArbPriority}
-\paragraph{功能描述} 优先级仲裁器，用于多个请求信号的优先级判断。
+% \section{代码}
+\subsection*{ArbPriority}
 
-\paragraph{输入输出端口：}
-\begin{itemize}
-    \item \texttt{clk} 和 \texttt{rstn}：时钟和复位信号。
-    \item \texttt{req\_i}：\texttt{N} 位的请求输入信号，每一位代表一个请求。
-    \item \texttt{prio}：\texttt{N} 位的优先级输入信号，每一位代表对应请求的优先级。
-    \item \texttt{ack\_i}：\texttt{N} 位的响应输出信号，每一位代表对应请求的响应。
-    \item \texttt{req\_o}：总请求输出信号，当任意请求有效时，该信号为高。
-    \item \texttt{ack\_o}：总响应输入信号，当仲裁器选择的请求被响应时，该信号为高。
-\end{itemize}
+该 ArbPriority 是老师提供的。
 
-\paragraph{内部信号} \texttt{token} 用于存储仲裁过程中生成的中间信号，长度为 \texttt{2*N}。
+% \paragraph{功能描述} 优先级仲裁器，用于多个请求信号的优先级判断。
 
-\paragraph{逻辑功能：}
-\begin{itemize}
-    \item \texttt{req\_o}：当任意请求有效时，\texttt{req\_o} 为高。
-    \item 仲裁逻辑通过 \texttt{generate} 语句生成 \texttt{N} 个仲裁单元，每个单元根据优先级和请求信号生成响应信号和中间信号 \texttt{token}。
-    \item 对于第一个请求（\texttt{i==0}），响应信号 \texttt{ack\_i[0]} 由优先级信号 \texttt{prio[0]}、中间信号 \texttt{token[N-1]}、请求信号 \texttt{req\_i[0]} 和总响应信号 \texttt{ack\_o} 共同决定。中间信号 \texttt{token[0]} 和 \texttt{token[N]} 分别由优先级信号 \texttt{prio[0]} 和请求信号 \texttt{req\_i[0]} 决定。
-    \item 对于其他请求（\texttt{i>0}），响应信号 \texttt{ack\_i[i]} 由前一个请求的中间信号 \texttt{token[i-1]}、当前请求的优先级信号 \texttt{prio[i]}、当前请求的中间信号 \texttt{token[N+i-1]}、请求信号 \texttt{req\_i[i]} 和总响应信号 \texttt{ack\_o} 共同决定。中间信号 \texttt{token[i]} 和 \texttt{token[N+i]} 分别由前一个请求的中间信号 \texttt{token[i-1]}、当前请求的优先级信号 \texttt{prio[i]} 和请求信号 \texttt{req\_i[i]} 决定。
-\end{itemize}
+% \paragraph{输入输出端口：}
+% \begin{itemize}
+%     \item \texttt{clk} 和 \texttt{rstn}：时钟和复位信号。
+%     \item \texttt{req\_i}：\texttt{N} 位的请求输入信号，每一位代表一个请求。
+%     \item \texttt{prio}：\texttt{N} 位的优先级输入信号，每一位代表对应请求的优先级。
+%     \item \texttt{ack\_i}：\texttt{N} 位的响应输出信号，每一位代表对应请求的响应。
+%     \item \texttt{req\_o}：总请求输出信号，当任意请求有效时，该信号为高。
+%     \item \texttt{ack\_o}：总响应输入信号，当仲裁器选择的请求被响应时，该信号为高。
+% \end{itemize}
+
+% \paragraph{内部信号} \texttt{token} 用于存储仲裁过程中生成的中间信号，长度为 \texttt{2*N}。
+
+% \paragraph{逻辑功能：}
+% \begin{itemize}
+%     \item \texttt{req\_o}：当任意请求有效时，\texttt{req\_o} 为高。
+%     \item 仲裁逻辑通过 \texttt{generate} 语句生成 \texttt{N} 个仲裁单元，每个单元根据优先级和请求信号生成响应信号和中间信号 \texttt{token}。
+%     \item 对于第一个请求（\texttt{i==0}），响应信号 \texttt{ack\_i[0]} 由优先级信号 \texttt{prio[0]}、中间信号 \texttt{token[N-1]}、请求信号 \texttt{req\_i[0]} 和总响应信号 \texttt{ack\_o} 共同决定。中间信号 \texttt{token[0]} 和 \texttt{token[N]} 分别由优先级信号 \texttt{prio[0]} 和请求信号 \texttt{req\_i[0]} 决定。
+%     \item 对于其他请求（\texttt{i>0}），响应信号 \texttt{ack\_i[i]} 由前一个请求的中间信号 \texttt{token[i-1]}、当前请求的优先级信号 \texttt{prio[i]}、当前请求的中间信号 \texttt{token[N+i-1]}、请求信号 \texttt{req\_i[i]} 和总响应信号 \texttt{ack\_o} 共同决定。中间信号 \texttt{token[i]} 和 \texttt{token[N+i]} 分别由前一个请求的中间信号 \texttt{token[i-1]}、当前请求的优先级信号 \texttt{prio[i]} 和请求信号 \texttt{req\_i[i]} 决定。
+% \end{itemize}
 
 \begin{tcblisting}{listing engine=minted,boxrule=0.1mm,colback=blue!5!white,breakable,colframe=blue!75!black,listing only,left=5mm,minted options={fontsize=\small,breaklines, autogobble,linenos,numbersep=3mm},minted language=verilog}
 module ArbPriority
@@ -112,19 +115,19 @@ module ArbPriority
 endmodule
 \end{tcblisting}
 
-\subsection{binary\_to\_decimal}
-\paragraph{功能描述} 二进制转十进制模块，用于将二进制数转换为十进制数。
+\subsection*{binary\_to\_decimal}
+% \paragraph{功能描述} 二进制转十进制模块，用于将二进制数转换为十进制数。
 
-\paragraph{输入输出端口：}
-\begin{itemize}
-    \item \texttt{binary}：\texttt{N} 位的二进制输入信号。
-    \item \texttt{output\_data}：24 位的十进制输出信号。
-\end{itemize}
+% \paragraph{输入输出端口：}
+% \begin{itemize}
+%     \item \texttt{binary}：\texttt{N} 位的二进制输入信号。
+%     \item \texttt{output\_data}：24 位的十进制输出信号。
+% \end{itemize}
 
-\paragraph{内部信号} \texttt{register} 用于存储转换过程中的中间结果，长度为 24 位。
+% \paragraph{内部信号} \texttt{register} 用于存储转换过程中的中间结果，长度为 24 位。
 
-\paragraph{逻辑功能}
-模块使用双重循环将二进制数转换为十进制数。外层循环遍历二进制输入信号的每一位。内层循环检查并调整寄存器中的每一位，使其符合 BCD（Binary-Coded Decimal）编码规则。
+% \paragraph{逻辑功能}
+% 模块使用双重循环将二进制数转换为十进制数。外层循环遍历二进制输入信号的每一位。内层循环检查并调整寄存器中的每一位，使其符合 BCD（Binary-Coded Decimal）编码规则。
 
 \begin{tcblisting}{listing engine=minted,boxrule=0.1mm,colback=blue!5!white,breakable,colframe=blue!75!black,listing only,left=5mm,minted options={fontsize=\small,breaklines, autogobble,linenos,numbersep=3mm,escapeinside=||},minted language=verilog}
 module binary_to_decimal #(parameter N = 20)
@@ -152,21 +155,21 @@ integer j;
 endmodule
 \end{tcblisting}
 
-\subsection{cnt\_1s}
+\subsection*{cnt\_1s}
 
-\paragraph{功能描述} 1s计数器，用于计算1s的时间。
+% \paragraph{功能描述} 1s计数器，用于计算1s的时间。
 
-\paragraph{输入输出端口：}
-\begin{itemize}
-    \item \texttt{clk}：系统时钟信号。
-    \item \texttt{rstn}：复位信号。
-    \item \texttt{clk\_o}：1s计数输出信号。
-\end{itemize}
+% \paragraph{输入输出端口：}
+% \begin{itemize}
+%     \item \texttt{clk}：系统时钟信号。
+%     \item \texttt{rstn}：复位信号。
+%     \item \texttt{clk\_o}：1s计数输出信号。
+% \end{itemize}
 
-\paragraph{内部信号} \texttt{cnt\_1s} 用于存储计数器的计数值，长度为 26 位。
+% \paragraph{内部信号} \texttt{cnt\_1s} 用于存储计数器的计数值，长度为 26 位。
 
-\paragraph{逻辑功能}
-计数器使用 20ns 的时钟信号计数，每计数到 25,000,000 时钟周期（即 1s）输出一个高电平的时钟信号。
+% \paragraph{逻辑功能}
+% 计数器使用 20ns 的时钟信号计数，每计数到 25,000,000 时钟周期（即 1s）输出一个高电平的时钟信号。
 
 \begin{tcblisting}{listing engine=minted,boxrule=0.1mm,colback=blue!5!white,breakable,colframe=blue!75!black,listing only,left=5mm,minted options={fontsize=\small,breaklines, autogobble,linenos,numbersep=3mm,escapeinside=||},minted language=verilog}
 //使用20ns的时钟clk
@@ -196,96 +199,96 @@ always@(posedge clk or negedge rstn) begin
 endmodule
 \end{tcblisting}
 
-\subsection{key\_filter}
+% \subsection*{key\_filter}
 
-\paragraph{功能描述} 按键消抖模块，用于消抖按键信号。
+% \paragraph{功能描述} 按键消抖模块，用于消抖按键信号。
 
-\paragraph{输入输出端口：}
-\begin{itemize}
-    \item \texttt{clk}：系统时钟信号。
-    \item \texttt{rstn}：复位信号。
-    \item \texttt{key\_in}：按键输入信号。
-    \item \texttt{state}：按键有效标志位。
-\end{itemize}
+% \paragraph{输入输出端口：}
+% \begin{itemize}
+%     \item \texttt{clk}：系统时钟信号。
+%     \item \texttt{rstn}：复位信号。
+%     \item \texttt{key\_in}：按键输入信号。
+%     \item \texttt{state}：按键有效标志位。
+% \end{itemize}
 
-\paragraph{逻辑功能}
-按键消抖模块使用 20ms 的时钟信号计数，每计数到 999,999 时钟周期（即 20ms）输出一个高电平的按键有效标志位。
+% \paragraph{逻辑功能}
+% 按键消抖模块使用 20ms 的时钟信号计数，每计数到 999,999 时钟周期（即 20ms）输出一个高电平的按键有效标志位。
 
-\begin{tcblisting}{listing engine=minted,boxrule=0.1mm,colback=blue!5!white,breakable,colframe=blue!75!black,listing only,left=5mm,minted options={fontsize=\small,breaklines, autogobble,linenos,numbersep=3mm,escapeinside=||},minted language=verilog}
-    module key_filter
-    #(
-    parameter CNT_MAX = 20'd999_999 //计数器计数最大值
-    )
-    (
-    input wire clk , //系统时钟50MHz
-    input wire rstn ,
-    input wire key_in , //按键输入信号
+% \begin{tcblisting}{listing engine=minted,boxrule=0.1mm,colback=blue!5!white,breakable,colframe=blue!75!black,listing only,left=5mm,minted options={fontsize=\small,breaklines, autogobble,linenos,numbersep=3mm,escapeinside=||},minted language=verilog}
+%     module key_filter
+%     #(
+%     parameter CNT_MAX = 20'd999_999 //计数器计数最大值
+%     )
+%     (
+%     input wire clk , //系统时钟50MHz
+%     input wire rstn ,
+%     input wire key_in , //按键输入信号
 
-    output reg state //key_flag为1时表示消抖后检测到按键被按下
-    //key_flag为0时表示没有检测到按键被按下
-    );
-
-
-    reg [19:0] cnt_20ms ; //计数器
-    reg key_flag;
+%     output reg state //key_flag为1时表示消抖后检测到按键被按下
+%     //key_flag为0时表示没有检测到按键被按下
+%     );
 
 
-    //外部按键输入的值为低电平时，计数器开始计数
-    always@(posedge clk or negedge rstn)
-    if(rstn == 1'b0) cnt_20ms <= 20'b0;
-    else if(key_in == 1'b1) cnt_20ms <= 20'b0;
-    else if(cnt_20ms == CNT_MAX && key_in == 1'b0) cnt_20ms <= cnt_20ms;
-    else cnt_20ms <= cnt_20ms + 1'b1;
-
-    //key_flag:当计数满20ms后产生按键有效标志位
-    //且key_flag在cnt_20ms=999_999时拉高,维持一个时钟的高电平
-    always@(posedge clk or negedge rstn)
-    if(rstn == 1'b0)
-    key_flag <= 1'b0;
-    else if(cnt_20ms == CNT_MAX - 1'b1)
-    key_flag <= 1'b1;
-    else
-    key_flag <= 1'b0;
-
-    reg key_flag_sync1, key_flag_sync2;
-
-    always @(posedge clk or negedge rstn) begin
-        if (~rstn) begin
-            key_flag_sync1 <= 0;
-            key_flag_sync2 <= 0;
-            state <= 0;
-        end else begin
-            key_flag_sync1 <= key_flag;  // 第一级同步
-            key_flag_sync2 <= key_flag_sync1;  // 第二级同步
-
-            if (key_flag_sync2 == 1 && key_flag_sync1 == 0) begin
-                state <= ~state;  // 在上升沿时翻转state
-            end
-        end
-    end
+%     reg [19:0] cnt_20ms ; //计数器
+%     reg key_flag;
 
 
-    endmodule
-\end{tcblisting}
+%     //外部按键输入的值为低电平时，计数器开始计数
+%     always@(posedge clk or negedge rstn)
+%     if(rstn == 1'b0) cnt_20ms <= 20'b0;
+%     else if(key_in == 1'b1) cnt_20ms <= 20'b0;
+%     else if(cnt_20ms == CNT_MAX && key_in == 1'b0) cnt_20ms <= cnt_20ms;
+%     else cnt_20ms <= cnt_20ms + 1'b1;
 
-\subsection{eshelby\_screen}
+%     //key_flag:当计数满20ms后产生按键有效标志位
+%     //且key_flag在cnt_20ms=999_999时拉高,维持一个时钟的高电平
+%     always@(posedge clk or negedge rstn)
+%     if(rstn == 1'b0)
+%     key_flag <= 1'b0;
+%     else if(cnt_20ms == CNT_MAX - 1'b1)
+%     key_flag <= 1'b1;
+%     else
+%     key_flag <= 1'b0;
 
-\paragraph{功能描述} 素数筛模块，用于筛选素数。
+%     reg key_flag_sync1, key_flag_sync2;
 
-\paragraph{逻辑功能}
-\begin{itemize}
-    \item 模块使用 SRAM 存储筛选结果，每个地址对应一个数，存储该数是否为素数。
-    \item 模块使用两个计数器 \texttt{index\_kill} 和 \texttt{index\_prime} 分别记录当前筛选的数和当前素数。
-    \item 模块使用状态机实现筛选逻辑。状态机包括以下状态：
-     \begin{itemize}
-        \item \texttt{KILLER\_STATE}：筛选合数状态，将当前素数的倍数标记为合数。
-        \item \texttt{CHECK\_PRIME\_STATE}：检查素数状态，检查下一个数是否为素数。
-        \item \texttt{READ\_TO\_CHECK\_STATE}：等待 SRAM 读取状态，等待 SRAM 读取下一个数。
-        \item \texttt{INITIAL\_STATE}：初始化状态，初始化计数器和 SRAM。
-        \item \texttt{DONE\_STATE}：筛选完成状态，筛选完成。
-     \end{itemize}
-    \item 模块使用两个状态机 \texttt{state} 和 \texttt{output\_state} 分别控制筛选和输出逻辑。其中，\texttt{output\_state} 用于输出素数。
-\end{itemize}
+%     always @(posedge clk or negedge rstn) begin
+%         if (~rstn) begin
+%             key_flag_sync1 <= 0;
+%             key_flag_sync2 <= 0;
+%             state <= 0;
+%         end else begin
+%             key_flag_sync1 <= key_flag;  // 第一级同步
+%             key_flag_sync2 <= key_flag_sync1;  // 第二级同步
+
+%             if (key_flag_sync2 == 1 && key_flag_sync1 == 0) begin
+%                 state <= ~state;  // 在上升沿时翻转state
+%             end
+%         end
+%     end
+
+
+%     endmodule
+% \end{tcblisting}
+
+\subsection*{eshelby\_screen}
+
+% \paragraph{功能描述} 素数筛模块，用于筛选素数。
+
+% \paragraph{逻辑功能}
+% \begin{itemize}
+%     \item 模块使用 SRAM 存储筛选结果，每个地址对应一个数，存储该数是否为素数。
+%     \item 模块使用两个计数器 \texttt{index\_kill} 和 \texttt{index\_prime} 分别记录当前筛选的数和当前素数。
+%     \item 模块使用状态机实现筛选逻辑。状态机包括以下状态：
+%      \begin{itemize}
+%         \item \texttt{KILLER\_STATE}：筛选合数状态，将当前素数的倍数标记为合数。
+%         \item \texttt{CHECK\_PRIME\_STATE}：检查素数状态，检查下一个数是否为素数。
+%         \item \texttt{READ\_TO\_CHECK\_STATE}：等待 SRAM 读取状态，等待 SRAM 读取下一个数。
+%         \item \texttt{INITIAL\_STATE}：初始化状态，初始化计数器和 SRAM。
+%         \item \texttt{DONE\_STATE}：筛选完成状态，筛选完成。
+%      \end{itemize}
+%     \item 模块使用两个状态机 \texttt{state} 和 \texttt{output\_state} 分别控制筛选和输出逻辑。其中，\texttt{output\_state} 用于输出素数。
+% \end{itemize}
 
 \begin{tcblisting}{listing engine=minted,boxrule=0.1mm,colback=blue!5!white,breakable,colframe=blue!75!black,listing only,left=5mm,minted options={fontsize=\small,breaklines, autogobble,linenos,numbersep=3mm,escapeinside=||},minted language=verilog}
     module eshelby_screen (
@@ -497,29 +500,29 @@ endmodule
     endmodule
 \end{tcblisting}
 
-\subsection{key\_mode}
+\subsection*{key\_mode}
 
-\paragraph{功能描述} 按键模式切换模块，用于按键模式切换。
+% \paragraph{功能描述} 按键模式切换模块，用于按键模式切换。
 
-\paragraph{输入输出端口：}
-\begin{itemize}
-    \item \texttt{clk}：系统时钟信号。
-    \item \texttt{rstn}：复位信号。
-    \item \texttt{key\_in}：按键输入信号。
-    \item \texttt{mode}：模式切换信号。
-\end{itemize}
+% \paragraph{输入输出端口：}
+% \begin{itemize}
+%     \item \texttt{clk}：系统时钟信号。
+%     \item \texttt{rstn}：复位信号。
+%     \item \texttt{key\_in}：按键输入信号。
+%     \item \texttt{mode}：模式切换信号。
+% \end{itemize}
 
-\paragraph{逻辑功能}
-\begin{itemize}
-    \item 模块使用两级同步器消抖按键信号。
-    \item 模块使用计数器计数按键按下时间，当按键按下时间达到 \texttt{N} 时钟周期时，输出模式切换信号。
-    \item 模块使用状态机实现模式切换逻辑。状态机包括以下状态：
-     \begin{itemize}
-        \item \texttt{IDLE}：空闲状态，等待按键按下。
-        \item \texttt{WAIT\_RELEASE}：等待释放状态，等待按键释放。
-        \item \texttt{SWITCH}：切换状态，切换模式。
-     \end{itemize}
-\end{itemize}
+% \paragraph{逻辑功能}
+% \begin{itemize}
+%     \item 模块使用两级同步器消抖按键信号。
+%     \item 模块使用计数器计数按键按下时间，当按键按下时间达到 \texttt{N} 时钟周期时，输出模式切换信号。
+%     \item 模块使用状态机实现模式切换逻辑。状态机包括以下状态：
+%      \begin{itemize}
+%         \item \texttt{IDLE}：空闲状态，等待按键按下。
+%         \item \texttt{WAIT\_RELEASE}：等待释放状态，等待按键释放。
+%         \item \texttt{SWITCH}：切换状态，切换模式。
+%      \end{itemize}
+% \end{itemize}
 
 \begin{tcblisting}{listing engine=minted,boxrule=0.1mm,colback=blue!5!white,breakable,colframe=blue!75!black,listing only,left=5mm,minted options={fontsize=\small,breaklines, autogobble,linenos,numbersep=3mm,escapeinside=||},minted language=verilog}
     module key_mode #(parameter N = 1_000_000)(
@@ -559,6 +562,108 @@ endmodule
         end
         assign mode = state;
     endmodule
+\end{tcblisting}
+
+\subsection{top}
+
+\begin{tcblisting}{listing engine=minted,boxrule=0.1mm,colback=blue!5!white,breakable,colframe=blue!75!black,listing only,left=5mm,minted options={fontsize=\small,breaklines, autogobble,linenos,numbersep=3mm,escapeinside=||},minted language=verilog}
+    module top(
+    input clk,
+    input rstn,
+    output [3:0] led,
+    input [3:0] key,
+    output [5:0] seg_sel,
+    output [7:0] seg_dig
+);
+
+    reg [3:0] led;
+
+    always @(posedge clk or negedge rstn)
+    if(!rstn)
+        led <= 0;
+    else
+        led <= led ^ (~key);
+
+    reg [23:0] cnt;
+    wire [6*8-1:0] seg;
+
+    always @(posedge clk or negedge rstn)
+    if(!rstn)
+        cnt <= 0;
+    else begin
+        if(~key[0]) cnt = cnt + 1;
+        if(~key[1]) cnt = cnt + 2;
+        if(~key[2]) cnt = cnt + 4;
+        if(~key[3]) cnt = cnt + 8;
+    end
+
+    genvar i;
+    generate for(i=0; i<6; i=i+1) begin
+            led7seg_decode d(cnt[i*4 +: 4], 1'b1, seg[i*8 +: 8]);
+        end
+    endgenerate
+
+    seg_driver #(6) driver(clk, rstn, 6'b111111, seg, seg_sel, seg_dig);
+
+endmodule
+
+module seg_driver #(parameter NPorts=8) (
+    input clk, rstn,
+    input [NPorts-1:0]   valid_i, // input port valid
+    input [NPorts*8-1:0] seg_i, // segment inputs
+    output reg [NPorts-1:0]  valid_o, // output port valid
+    output [7:0]         seg_o // segment outputs
+);
+
+    reg [14:0] cnt;
+    always @(posedge clk or negedge rstn)
+    if(~rstn)
+        cnt <= 0;
+    else
+        cnt <= cnt + 1;
+
+    reg [NPorts-1:0] sel;
+    always @(posedge clk or negedge rstn)
+    if(~rstn)
+        sel <= 0;
+    else if(cnt == 0)
+        sel <= sel == NPorts - 1 ? 0 : sel + 1;
+
+    always @(sel, valid_i) begin
+        valid_o = {NPorts{1'b1}};
+        valid_o[sel] = ~valid_i[sel];
+    end
+
+    assign seg_o = ~seg_i[sel*8+:8];
+
+endmodule
+
+module led7seg_decode(input [3:0] digit, input valid, output reg [7:0] seg);
+
+    always @(digit)
+    if(valid)
+        case(digit)
+            0: seg = 8'b00111111;
+            1: seg = 8'b00000110;
+            2: seg = 8'b01011011;
+            3: seg = 8'b01001111;
+            4: seg = 8'b01100110;
+            5: seg = 8'b01101101;
+            6: seg = 8'b01111101;
+            7: seg = 8'b00000111;
+            8: seg = 8'b01111111;
+            9: seg = 8'b01101111;
+            10: seg = 8'b01110111;
+            11: seg = 8'b01111100;
+            12: seg = 8'b00111001;
+            13: seg = 8'b01011110;
+            14: seg = 8'b01111011;
+            15: seg = 8'b01110001;
+            default: seg = 0;
+        endcase
+    else seg = 8'd0;
+
+endmodule
 \end{tcblisting}
 
 % \bibliographystyle{unsrt}
